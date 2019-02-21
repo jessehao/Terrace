@@ -72,7 +72,7 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 	
 	override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		let formSection = self.form[section]
-		return formSection.headerView != nil ? nil : (formSection.header ?? " ")
+		return formSection.headerView != nil ? nil : formSection.header
 	}
 	
 	override open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -81,7 +81,7 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 	
 	override open func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
 		let formSection = self.form[section]
-		return formSection.footerView != nil ? nil : (formSection.footer ?? " ")
+		return formSection.footerView != nil ? nil : formSection.footer
 	}
 	
 	override open func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

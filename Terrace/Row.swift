@@ -13,7 +13,7 @@ public protocol FormRowCellProtocol {
 	static var defaultEstimatedHeight:CGFloat { get }
 }
 
-extension FormRowCellProtocol {
+public extension FormRowCellProtocol {
 	static var defaultHeight:CGFloat { return UITableView.automaticDimension }
 	static var defaultEstimatedHeight:CGFloat { return 44 }
 }

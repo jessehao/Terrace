@@ -19,7 +19,12 @@ extension Form {
 		// Expressible By Array Literal
 		public typealias ArrayLiteralElement = Form.Row
 		public required init(arrayLiteral elements: Form.Row...) {
+			super.init()
 			self.rows = elements
+		}
+		public init(rows:[Row]) {
+			super.init()
+			self.rows = rows
 		}
 		open func reloadData() {
 			guard let form = self.form else { return }
