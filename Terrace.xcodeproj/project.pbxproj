@@ -10,6 +10,10 @@
 		F6399C4C221E49D300D2FF9D /* Terrace.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6399C42221E49D200D2FF9D /* Terrace.framework */; };
 		F6399C51221E49D300D2FF9D /* TerraceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6399C50221E49D300D2FF9D /* TerraceTests.swift */; };
 		F6399C53221E49D300D2FF9D /* Terrace.h in Headers */ = {isa = PBXBuildFile; fileRef = F6399C45221E49D300D2FF9D /* Terrace.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F6399C5D221E49F600D2FF9D /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6399C5C221E49F600D2FF9D /* Form.swift */; };
+		F6399C5F221E4A0100D2FF9D /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6399C5E221E4A0100D2FF9D /* Section.swift */; };
+		F6399C61221E4A0600D2FF9D /* Row.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6399C60221E4A0600D2FF9D /* Row.swift */; };
+		F6399C63221E4A2000D2FF9D /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6399C62221E4A2000D2FF9D /* FormTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +33,10 @@
 		F6399C4B221E49D300D2FF9D /* TerraceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TerraceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6399C50221E49D300D2FF9D /* TerraceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerraceTests.swift; sourceTree = "<group>"; };
 		F6399C52221E49D300D2FF9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6399C5C221E49F600D2FF9D /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
+		F6399C5E221E4A0100D2FF9D /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
+		F6399C60221E4A0600D2FF9D /* Row.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Row.swift; sourceTree = "<group>"; };
+		F6399C62221E4A2000D2FF9D /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +81,10 @@
 			children = (
 				F6399C45221E49D300D2FF9D /* Terrace.h */,
 				F6399C46221E49D300D2FF9D /* Info.plist */,
+				F6399C5C221E49F600D2FF9D /* Form.swift */,
+				F6399C5E221E4A0100D2FF9D /* Section.swift */,
+				F6399C60221E4A0600D2FF9D /* Row.swift */,
+				F6399C62221E4A2000D2FF9D /* FormTableViewController.swift */,
 			);
 			path = Terrace;
 			sourceTree = "<group>";
@@ -148,6 +160,7 @@
 				TargetAttributes = {
 					F6399C41221E49D200D2FF9D = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 					F6399C4A221E49D300D2FF9D = {
 						CreatedOnToolsVersion = 10.1;
@@ -194,6 +207,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6399C5D221E49F600D2FF9D /* Form.swift in Sources */,
+				F6399C61221E4A0600D2FF9D /* Row.swift in Sources */,
+				F6399C5F221E4A0100D2FF9D /* Section.swift in Sources */,
+				F6399C63221E4A2000D2FF9D /* FormTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +358,7 @@
 		F6399C57221E49D300D2FF9D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -357,6 +375,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.snoware.Terrace;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -365,6 +384,7 @@
 		F6399C58221E49D300D2FF9D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -389,6 +409,7 @@
 		F6399C5A221E49D300D2FF9D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TerraceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -406,6 +427,7 @@
 		F6399C5B221E49D300D2FF9D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TerraceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
