@@ -57,6 +57,35 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 		return rowWithOffset.row.cell!
 	}
 	
+	// Title for Header/Footer
+	override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		let formSection = self.form[section]
+		return formSection.headerView != nil ? nil : formSection.header
+	}
+	
+	override open func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+		let formSection = self.form[section]
+		return formSection.footerView != nil ? nil : formSection.footer
+	}
+	
+	// Inserting / Deleting
+	override open func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return self.form[indexPath].row.canDelete
+	}
+	
+	override open func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		let rowWithOffset = self.form[indexPath]
+		if rowWithOffset.row.canDelete {
+			if rowWithOffset.row.isDynamic {
+				self.willDeleteDynamicCell(forIdentifier: rowWithOffset.row.reuseIdentifier!, at: rowWithOffset.offset)
+				tableView.deleteRows(at: [indexPath], with: .top)
+			} else {
+				let formRowIndex = self.form[indexPath.section].formRowIndexWithRelativeOffset(forTableViewRowIndex: indexPath.row).index
+				tableView.deleteRows(at: [[indexPath.section, formRowIndex]], with: .top)
+			}
+		}
+	}
+	
 	// MARK: - UITableView Delegate
 	override open func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return self.form[indexPath].row.height
@@ -66,24 +95,7 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 		return self.form[indexPath].row.estimatedHeight
 	}
 	
-	override open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-		return self.form[section].headerView
-	}
-	
-	override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		let formSection = self.form[section]
-		return formSection.headerView != nil ? nil : formSection.header
-	}
-	
-	override open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-		return self.form[section].footerView
-	}
-	
-	override open func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-		let formSection = self.form[section]
-		return formSection.footerView != nil ? nil : formSection.footer
-	}
-	
+	// Selections
 	override open func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
 		let rowWithOffset = self.form[indexPath]
 		if rowWithOffset.row.canSelect {
@@ -102,6 +114,15 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 		}
 	}
 	
+	// Header / Footer
+	override open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		return self.form[section].headerView
+	}
+	
+	override open func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+		return self.form[section].footerView
+	}
+	
 	override open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 		return UITableView.automaticDimension
 	}
@@ -110,30 +131,10 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 		return 10
 	}
 	
-	override open func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-		return self.form[section].footer != nil ? UITableView.automaticDimension : CGFloat.leastNormalMagnitude
-	}
-	
-	override open func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-		return self.form[indexPath].row.canDelete
-	}
-	
+	// Editing
 	override open func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
 		if self.form[indexPath].row.canDelete { return .delete }
 		return .none
-	}
-	
-	override open func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-		let rowWithOffset = self.form[indexPath]
-		if rowWithOffset.row.canDelete {
-			if rowWithOffset.row.isDynamic {
-				self.willDeleteDynamicCell(forIdentifier: rowWithOffset.row.reuseIdentifier!, at: rowWithOffset.offset)
-				tableView.deleteRows(at: [indexPath], with: .top)
-			} else {
-				let formRowIndex = self.form[indexPath.section].formRowIndexWithRelativeOffset(forTableViewRowIndex: indexPath.row).index
-				tableView.deleteRows(at: [[indexPath.section, formRowIndex]], with: .top)
-			}
-		}
 	}
 	
 	// MARK: - Operations
