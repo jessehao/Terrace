@@ -32,6 +32,7 @@ class RootForm : Form {
 	override func initialSections() -> [Form.Section] {
 		var retval = super.initialSections()
 		retval.append(Section(rows: RootForm.staticNumberRows()))
+		retval.append(Section(arrayLiteral: Row(withCell: TextCell()), Row(withCell: TextCell())))
 		retval.append(Section(arrayLiteral: Row(withCell: TextCell())))
 		return retval
 	}

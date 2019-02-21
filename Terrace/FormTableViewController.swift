@@ -105,7 +105,6 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 	}
 	
 	override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		super.tableView(tableView, didSelectRowAt: indexPath)
 		let rowWithOffset = self.form[indexPath]
 		if rowWithOffset.row.isDynamic {
 			self.didSelectDynamicRow(forIdentifier: rowWithOffset.row.reuseIdentifier!, at: rowWithOffset.offset)
