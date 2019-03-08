@@ -14,21 +14,39 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 	// MARK: - Lifecycle
 	convenience init() {
 		self.init(style: .grouped)
+	}
+	
+	public override init(style: UITableView.Style) {
+		super.init(style: style)
+		self.initializing()
+	}
+	
+	public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+		self.initializing()
+	}
+	
+	required public init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+		self.initializing()
+	}
+	
+	open func initializing() {
 		self.clearsSelectionOnViewWillAppear = true
 	}
 	
 	override open func viewDidLoad() {
 		super.viewDidLoad()
-		self.configTableView(self.tableView)
-		self.configForm(self.form)
+		self.configuringTableView(self.tableView)
+		self.configuringForm(self.form)
 		self.registerDynamicRows()
 	}
 	
 	// MARK: - Form Events
-	open func configForm(_ form:FormType) {
+	open func configuringForm(_ form:FormType) {
 		form.delegate = self
 	}
-	open func configDynamicCell(_ cell:UITableViewCell, withIdentifier identifier:String, at index:Int) {}
+	open func configuringDynamicCell(_ cell:UITableViewCell, withIdentifier identifier:String, at index:Int) {}
 	open func numberOfRows(forDynamicCellReuseIdentifier identifier:String) -> Int { return 0 }
 	open func didSelectDynamicRow(forIdentifier identifier:String, at index:Int) {}
 	open func willDeleteDynamicCell(forIdentifier identifier:String, at index:Int) {}
@@ -51,7 +69,7 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 		let rowWithOffset = self.form[indexPath]
 		if rowWithOffset.row.isDynamic, let identifier = rowWithOffset.row.reuseIdentifier {
 			let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
-			self.configDynamicCell(cell, withIdentifier: identifier, at: rowWithOffset.offset)
+			self.configuringDynamicCell(cell, withIdentifier: identifier, at: rowWithOffset.offset)
 			return cell
 		}
 		return rowWithOffset.row.cell!
@@ -137,7 +155,7 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 	}
 	
 	// MARK: - Operations
-	open func configTableView(_ tableView: UITableView) {
+	open func configuringTableView(_ tableView: UITableView) {
 		tableView.keyboardDismissMode = .onDrag
 	}
 	
