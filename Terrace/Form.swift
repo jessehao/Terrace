@@ -32,7 +32,10 @@ open class Form : NSObject {
 	
 	// MARK: - Operations
 	open func setup() {
-		self.sections = self.initialSections()
+        self.sections = self.initialSections().map {
+            $0.form = self
+            return $0
+        }
 		self.prepareTargets()
 	}
 	
