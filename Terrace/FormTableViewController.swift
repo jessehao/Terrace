@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class FormTableViewController<FormType:Form>: UITableViewController {
+open class FormTableViewController<FormType:Form>: UITableViewController, FormDelegate {
 	public let form:FormType = FormType()
 	
 	// MARK: - Lifecycle
@@ -50,6 +50,52 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 	open func numberOfRows(forDynamicCellReuseIdentifier identifier:String) -> Int { return 0 }
 	open func didSelectDynamicRow(forIdentifier identifier:String, at index:Int) {}
 	open func willDeleteDynamicCell(forIdentifier identifier:String, at index:Int) {}
+	
+	// MARK: - Form Delegate
+	open func form(_ form: Form, sectionsAddedAt indexes: IndexSet) {
+		self.tableView.beginUpdates()
+		self.tableView.insertSections(indexes, with: .fade)
+		self.tableView.endUpdates()
+	}
+	
+	open func form(_ form: Form, sectionsRemovedAt indexes: IndexSet) {
+		self.tableView.beginUpdates()
+		self.tableView.deleteSections(indexes, with: .fade)
+		self.tableView.endUpdates()
+	}
+	
+	open func form(_ form: Form, sectionsUpdatedAt indexes: IndexSet) {
+		self.tableView.beginUpdates()
+		self.tableView.reloadSections(indexes, with: .automatic)
+		self.tableView.endUpdates()
+	}
+	
+	open func form(_ form: Form, rowsAddedAt indexPaths: [IndexPath]) {
+		self.tableView.beginUpdates()
+		self.tableView.insertRows(at: indexPaths, with: .middle)
+		self.tableView.endUpdates()
+	}
+	
+	open func form(_ form: Form, rowsRemovedAt indexPaths: [IndexPath]) {
+		self.tableView.beginUpdates()
+		self.tableView.deleteRows(at: indexPaths, with: .top)
+		self.tableView.endUpdates()
+	}
+	
+	open func form(_ form: Form, rowsUpdatedAt indexPaths: [IndexPath]) {
+		self.tableView.beginUpdates()
+		self.tableView.reloadRows(at: indexPaths, with: .automatic)
+		self.tableView.endUpdates()
+	}
+	
+	open func needsToReloadData(for form: Form) {
+		self.tableView.reloadData()
+	}
+	
+	open func form(_ form: Form, dynamicRowsNeedsToRegister: Form.Row) {
+		guard let identifier = dynamicRowsNeedsToRegister.reuseIdentifier else { return }
+		self.tableView.register(dynamicRowsNeedsToRegister.cellType, forCellReuseIdentifier: identifier)
+	}
 	
 	// MARK: - UITableView Data Source
 	override open func numberOfSections(in tableView: UITableView) -> Int {
@@ -164,52 +210,5 @@ open class FormTableViewController<FormType:Form>: UITableViewController {
 			guard let identifier = $0.reuseIdentifier else { return }
 			self.tableView.register($0.cellType, forCellReuseIdentifier: identifier)
 		}
-	}
-}
-
-extension FormTableViewController : FormDelegate {
-	public func form(_ form: Form, sectionsAddedAt indexes: IndexSet) {
-		self.tableView.beginUpdates()
-		self.tableView.insertSections(indexes, with: .fade)
-		self.tableView.endUpdates()
-	}
-	
-	public func form(_ form: Form, sectionsRemovedAt indexes: IndexSet) {
-		self.tableView.beginUpdates()
-		self.tableView.deleteSections(indexes, with: .fade)
-		self.tableView.endUpdates()
-	}
-	
-	public func form(_ form: Form, sectionsUpdatedAt indexes: IndexSet) {
-		self.tableView.beginUpdates()
-		self.tableView.reloadSections(indexes, with: .automatic)
-		self.tableView.endUpdates()
-	}
-	
-	public func form(_ form: Form, rowsAddedAt indexPaths: [IndexPath]) {
-		self.tableView.beginUpdates()
-		self.tableView.insertRows(at: indexPaths, with: .middle)
-		self.tableView.endUpdates()
-	}
-	
-	public func form(_ form: Form, rowsRemovedAt indexPaths: [IndexPath]) {
-		self.tableView.beginUpdates()
-		self.tableView.deleteRows(at: indexPaths, with: .top)
-		self.tableView.endUpdates()
-	}
-	
-	public func form(_ form: Form, rowsUpdatedAt indexPaths: [IndexPath]) {
-		self.tableView.beginUpdates()
-		self.tableView.reloadRows(at: indexPaths, with: .automatic)
-		self.tableView.endUpdates()
-	}
-	
-	public func needsToReloadData(for form: Form) {
-		self.tableView.reloadData()
-	}
-	
-	public func form(_ form: Form, dynamicRowsNeedsToRegister: Form.Row) {
-		guard let identifier = dynamicRowsNeedsToRegister.reuseIdentifier else { return }
-		self.tableView.register(dynamicRowsNeedsToRegister.cellType, forCellReuseIdentifier: identifier)
 	}
 }
