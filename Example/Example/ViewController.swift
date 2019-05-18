@@ -61,5 +61,61 @@ class RootForm : Form {
 	}
 }
 
-class ViewController: FormTableViewController<RootForm> {}
+class CollapsingForm : Form {
+	let row1 = Row(withCell: .newWithConfiguration {
+		$0.textLabel?.text = "Press me"
+		})
+	let row2 = Row(withCell: .newWithConfiguration {
+		$0.textLabel?.text = "Press me too"
+		})
+	let row3 = Row(withCell: .newWithConfiguration {
+		$0.textLabel?.text = "show me"
+		})
+	let row4 = Row(withCell: .newWithConfiguration {
+		$0.textLabel?.text = "show me too"
+		})
+	
+	var indexOfRow1:Int { return 0 }
+	var indexOfRow2:Int { return self.hasRow3Shows ? 2 : 1 }
+	var hasRow3Shows:Bool = false {
+		didSet {
+			guard self.hasRow3Shows != oldValue else { return }
+			if self.hasRow3Shows {
+				self.first?.insert(self.row3, at: self.indexOfRow1 + 1)
+				self.hasRow4Shows = false
+			} else {
+				self.first?.remove(at: self.indexOfRow1 + 1)
+			}
+		}
+	}
+	var hasRow4Shows:Bool = false {
+		didSet {
+			guard self.hasRow4Shows != oldValue else { return }
+			if self.hasRow4Shows {
+				self.first?.insert(self.row4, at: self.indexOfRow2 + 1)
+				self.hasRow3Shows = false
+			} else {
+				self.first?.remove(at: self.indexOfRow2 + 1)
+			}
+		}
+	}
+	
+	override func defaultSection() -> Form.Section? {
+		return [row1, row2]
+	}
+	
+	override func setup() {
+		super.setup()
+		row1.onSelect { [weak self] in
+			guard let self = self else { return }
+			self.hasRow3Shows.negate()
+		}
+		row2.onSelect { [weak self] in
+			guard let self = self else { return }
+			self.hasRow4Shows.negate()
+		}
+	}
+}
+
+class ViewController: FormTableViewController<CollapsingForm> {}
 
